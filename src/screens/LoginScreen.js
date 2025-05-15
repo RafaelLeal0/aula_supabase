@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { supabase } from '../supabaseClient';
 
 export default function LoginScreen({ navigation }) {
@@ -20,10 +20,11 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Entrar</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="#555"
         autoCapitalize="none"
         value={email}
         onChangeText={setEmail}
@@ -32,11 +33,18 @@ export default function LoginScreen({ navigation }) {
       <TextInput
         style={styles.input}
         placeholder="Senha"
+        placeholderTextColor="#555"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
       />
-      <Button title={loading ? "Entrando..." : "Entrar"} onPress={handleLogin} disabled={loading} />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        <Text style={styles.buttonText}>{loading ? 'Entrando...' : 'Entrar'}</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
         <Text style={styles.link}>Não tem conta? Cadastre-se</Text>
       </TouchableOpacity>
@@ -45,8 +53,10 @@ export default function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex:1, justifyContent:'center', alignItems:'center', padding:20 },
-  title: { fontSize:24, fontWeight:'bold', marginBottom:20 },
-  input: { width:'80%', backgroundColor:'#fff', padding:10, borderRadius:8, marginBottom:15, elevation:2 },
-  link: { marginTop:20, color:'#007bff' }
+  container: { flex:1, backgroundColor:'#fff', justifyContent:'center', alignItems:'center', padding:20 },
+  title: { fontSize:32, color:'#000', fontWeight:'bold', marginBottom:30 },
+  input: { width:'100%', backgroundColor:'#f0f0f0', color:'#000', padding:12, borderRadius:12, marginBottom:20, fontSize:16 },
+  button: { backgroundColor:'#000', paddingVertical:12, paddingHorizontal:40, borderRadius:12, width:'100%' },
+  buttonText: { color:'#fff', fontWeight:'bold', fontSize:16, textAlign:'center' },
+  link: { marginTop:20, color:'#555', fontSize:14 }
 });
