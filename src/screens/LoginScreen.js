@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { supabase } from '../supabaseClient';
+import { useUser } from '../userContext';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { setUser } = useUser();
 
   const handleLogin = async () => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
       alert('Erro', error.message);
     } else {
-      navigation.replace('Index');
+      setUser(data.user); // Salva o usuário no contexto
+      navigation.replace('Home'); // Abre o TabNavigator, que inicia em Perfil
     }
   };
 
